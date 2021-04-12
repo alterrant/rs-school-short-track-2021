@@ -21,8 +21,39 @@
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new Error('Not implemented');
+function minesweeper(matrix) {
+  const rowMines = [];
+  const columnMines = [];
+  const matrixReplaceFalse = matrix.map((item, index) => {
+    const reItemMap = item.map((itemFalse, indexFalse) => {
+      let mapFalse = itemFalse;
+      if (itemFalse === false) mapFalse = 0;
+      else {
+        rowMines.push(index);
+        columnMines.push(indexFalse);
+      }
+      return mapFalse;
+    });
+    return reItemMap;
+  });
+  for (let i = 0; i < rowMines.length; i++) {
+    if (typeof (matrixReplaceFalse[rowMines[i]][columnMines[i] + 1]) === 'number') matrixReplaceFalse[rowMines[i]][columnMines[i] + 1] = matrixReplaceFalse[rowMines[i]][columnMines[i] + 1] + 1;
+    if (typeof (matrixReplaceFalse[rowMines[i]][columnMines[i] - 1]) === 'number') matrixReplaceFalse[rowMines[i]][columnMines[i] - 1] = matrixReplaceFalse[rowMines[i]][columnMines[i] - 1] + 1;
+    if (typeof (matrixReplaceFalse[rowMines[i] + 1][columnMines[i]]) === 'number') matrixReplaceFalse[rowMines[i] + 1][columnMines[i]] = matrixReplaceFalse[rowMines[i] + 1][columnMines[i]] + 1;
+    if (((rowMines[i] - 1) >= 0) && typeof (matrixReplaceFalse[rowMines[i] - 1][columnMines[i]]) === 'number') matrixReplaceFalse[rowMines[i] - 1][columnMines[i]] = matrixReplaceFalse[rowMines[i] - 1][columnMines[i]] + 1;
+    if (typeof (matrixReplaceFalse[rowMines[i] + 1][columnMines[i] + 1]) === 'number') matrixReplaceFalse[rowMines[i] + 1][columnMines[i] + 1] = matrixReplaceFalse[rowMines[i] + 1][columnMines[i] + 1] + 1;
+    if (typeof (matrixReplaceFalse[rowMines[i] + 1][columnMines[i] - 1]) === 'number') matrixReplaceFalse[rowMines[i] + 1][columnMines[i] - 1] = matrixReplaceFalse[rowMines[i] + 1][columnMines[i] - 1] + 1;
+    if (((rowMines[i] - 1) >= 0) && typeof (matrixReplaceFalse[rowMines[i] - 1][columnMines[i] + 1]) === 'number') matrixReplaceFalse[rowMines[i] - 1][columnMines[i] + 1] = matrixReplaceFalse[rowMines[i] - 1][columnMines[i] + 1] + 1;
+    if (((rowMines[i] - 1) >= 0) && typeof (matrixReplaceFalse[rowMines[i] - 1][columnMines[i] - 1]) === 'number') matrixReplaceFalse[rowMines[i] - 1][columnMines[i] - 1] = matrixReplaceFalse[rowMines[i] - 1][columnMines[i] - 1] + 1;
+  }
+  return matrixReplaceFalse.map((itemUpTrue) => {
+    const reItem = itemUpTrue.map((itemTrue) => {
+      let itemChangeTrue = itemTrue;
+      if (itemTrue === true) itemChangeTrue = 1;
+      return itemChangeTrue;
+    });
+    return reItem;
+  });
 }
 
 module.exports = minesweeper;
